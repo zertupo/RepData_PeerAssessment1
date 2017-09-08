@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Assignment of Coursera</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h1>Assignment of Coursera</h1>
+
+<h2>First question</h2>
+
+<p>We read the dataset in &ldquo;data&rdquo; and we make the column &ldquo;date&rdquo; as date format</p>
+
+<p>&#39;&#39;&#39;{r}</p>
+
+<p>data&lt;-read.csv(file=&ldquo;activity.csv&rdquo;,header=TRUE)
+data$date&lt;-as.Date(as.character(data$date),&ldquo;%Y-%m-%d&rdquo;)</p>
+
+<p>&#39;&#39;&#39;</p>
+
+<h2>Second question</h2>
+
+<p>Histogram of the total number of steps taken each day</p>
+
+<p>&#39;&#39;&#39;{r}</p>
+
+<p>library(&ldquo;ggplot2&rdquo;)
+perday&lt;-aggregate(data$steps,list(Date=data$date),sum)
+qplot(perday$x,main=&ldquo;Histogram of the total number of steps taken each day&rdquo;,xlab=&ldquo;Number of steps&rdquo;)</p>
+
+<p>&#39;&#39;&#39;</p>
+
+<h2>Third question</h2>
+
+<p>The mean and the median number of steps taken each day. </p>
+
+<p>&#39;&#39;&#39;{r}</p>
+
+<p>with(perday,c(&ldquo;mean&rdquo;=mean(x,na.rm=TRUE),&ldquo;median&rdquo;=median(x,na.rm=TRUE)))</p>
+
+<p>&#39;&#39;&#39;</p>
+
+<h2>Fourth question</h2>
+
+<p>Time series plot of the average number of steps taken</p>
+
+<p>&#39;&#39;&#39;{r}</p>
+
+<p>avera&lt;-tapply(data$steps,data$interval,mean,na.rm=TRUE)
+plot(avera,type=&ldquo;l&rdquo;,xlim=range(0,2355),xlab=&ldquo;5 minutes interval&rdquo;,ylab=&ldquo;average steps&rdquo;,main=&ldquo;average number of steps taken&rdquo;)</p>
+
+<p>&#39;&#39;&#39;</p>
+
+<h2>Fiveth question</h2>
+
+<p>The five minutes interval that, on average, contains the maximum number of steps</p>
+
+<p>&#39;&#39;&#39;{r}</p>
+
+<p>avera[with(avera,which(x==max(x))),1]</p>
+
+<p>&#39;&#39;&#39;</p>
+
+<h2>Sixth question</h2>
+
+<p>Code to describe and show a strategy for imputing missing data</p>
+
+<p>&#39;&#39;&#39;{r}</p>
+
+<p>c(&ldquo;Number of missing value&rdquo;=nrow(data[missing,]), &ldquo;Percentage&rdquo;=nrow(data[missing,])/nrow(data))
+&#39;&#39;&#39;</p>
+
+<p>To fill the missing values, we can replace its by the mean of their interval.</p>
+
+<h2>Seventh question</h2>
+
+<p>Histogram of the total number of steps taken each day after missing values are imputed</p>
+
+<p>&#39;&#39;&#39;{r}</p>
+
+<p>data2&lt;-data</p>
+
+<p>for (i in 1:nrow(data2)){</p>
+
+<pre><code>if (is.na(data2$steps[i])==TRUE){
+
+    x&lt;-i%%288
+    if (x==0){
+        x&lt;-288
+    }
+    data2$steps[i]&lt;-avera[x,2]
+}
+</code></pre>
+
+<p>}</p>
+
+<p>perday2&lt;-aggregate(data2$steps,list(Date=data$date),sum)</p>
+
+<p>qplot(perday2$x,main=&ldquo;Histogram of the total number of steps taken each day&rdquo;,xlab=&ldquo;Number of steps&rdquo;)</p>
+
+<p>&#39;&#39;&#39;</p>
+
+<h2>Eighth question</h2>
+
+<p>Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends</p>
+
+<p>&#39;&#39;&#39;{r}</p>
+
+<p>weekends = avera2$date[ as.POSIXlt(as.Date(avera2$date,&#39;%m/%d/%Y&#39;))$wday %in% c(0,6)]
+data2&lt;-transform(data2 ,weekend = ifelse(data2$date %in% as.Date(weekends,&#39;%m/%d/%Y&#39;) ,1,0 ))</p>
+
+<p>data_wkd&lt;-subset(data2,weekend==0)
+avera2&lt;-tapply(data_wkd$steps,data_wkd$interval,mean,na.rm=TRUE)</p>
+
+<p>data_wknd&lt;-subset(data2,weekend==1)
+avera3&lt;-tapply(data_wknd$steps,data_wknd$interval,mean,na.rm=TRUE)</p>
+
+<p>par(mfrow=c(1,2))
+plot(avera2,type=&ldquo;l&rdquo;,xlab=&ldquo;5 minutes interval&rdquo;,ylab=&ldquo;average steps&rdquo;,main=&ldquo;avg nber steps in weekdays&rdquo;)
+plot(avera3,type=&ldquo;l&rdquo;,xlab=&ldquo;5 minutes interval&rdquo;,ylab=&ldquo;average steps&rdquo;,main=&ldquo;avg nber steps in weekend&rdquo;)</p>
+
+<p>&#39;&#39;&#39;</p>
+
+</body>
+
+</html>
